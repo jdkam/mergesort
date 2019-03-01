@@ -17,11 +17,11 @@ void mergeSort(int arr[], int low, int high)
     { 
         // Same as (l+r)/2, but avoids overflow for 
         // large l and h 
-        int mid = low+(high-low)/2; 
+        int mid = (high+low)/2; 
   
         // Sort first and second halves 
-        mergeSort(arr, low, mid); 
-        mergeSort(arr, mid+1, high); 
+        mergeSort(arr, low, mid); //sort first half
+        mergeSort(arr, mid+1, high); //sort second half
   
         merge(arr, low, mid, mid+1, high); 
     } 
@@ -42,67 +42,49 @@ void mergeSort(int arr[], int low, int high)
 void merge(int arr[], int low, int mid, int mid1, int high)
 {
 
-	int i, j, k; 
-    int n1 = mid - low + 1; 
-    int n2 =  high - mid; 
-	int temp[high-low+1];
+	int i = low; //start point 
+    int j = mid + 1; //mid point 
+    int k =0; //temp index
+	int temp[high-low+1]; //where to store sorted array
   
-    int L[n1], R[n2]; 
-  
-    for (i = 0; i < n1; i++)
-	{
-		L[i] = arr[low + i]; 
-	} 
 
-
-    for (j = 0; j < n2; j++) 
-	{
-		R[j] = arr[mid + 1 + j]; 
-
-	}
-
-    i = 0; 
-    j = 0; 
-    k = 0; 
-
-    while (i < n1 && j < n2) 
+    while (i <= mid && j <= high) //merge arrays in sorted order
     { 
-        if (L[i] <= R[j]) 
+        if (arr[i] <= arr[j]) //if left subarray is less than right
         { 
-            temp[k] = L[i];
+            temp[k] = arr[i]; //push left subarray element into temp
             i++; 
         } 
         else
         { 
-            temp[k] = R[j]; 
+            temp[k] = arr[j]; //push right subarray element into temp
             j++; 
         } 
         k++; 
     } 
 
   
-    while (i < n1) 
+    while (i <= mid) //push rest of elements of left subarray into temp
     { 
-        temp[k] = L[i]; 
+        temp[k] = arr[i]; 
 		//cout << "Left subarray last insert: " << L[i] << endl;
         i++; 
         k++; 
     } 
   
  
-    while (j < n2) 
+    while (j <= high) //push rest of elements of right subarray into temp
     { 
-        temp[k] = R[j]; 
+        temp[k] = arr[j]; 
 		//cout << "Right subarray last insert: " << R[j] << endl;
-		k++; 
+		k++;  
         j++; 
         
     } 
 
-	for(int i = low ; i < (high-low +1); i++)
+	for(int i = 0 ; i < (high-low +1); i++)
 	{
-		arr[i] = temp[i];
-		k++;
+		arr[i + low] = temp[i];
 	}
 
 }
@@ -116,7 +98,7 @@ int main(void)
 	int n;
 
 	// Get the number of values.
-	cout << "Enter the number of values to be sorted:" << endl;
+	//cout << "Enter the number of values to be sorted:" << endl;
 	cin >> n;
 
 	// Create array in dynamic memory.
@@ -125,7 +107,7 @@ int main(void)
 
 	for (int i = 0; i < n; i++)
 	{
-		cout << "Enter a number:" << endl;
+		//cout << "Enter a number:" << endl;
 		cin >> values[i];
 	}
 	
